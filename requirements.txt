@@ -1,0 +1,7 @@
+numpy
+matplotlib
+svgwrite
+cairosvg
+scikit-image
+scipy
+scikit-learn
