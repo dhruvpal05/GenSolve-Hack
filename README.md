@@ -1,6 +1,6 @@
-# GenSolve-Hack
-
-# Shape Detection and Symmetry Analysis
+<p align="center">
+  <strong>GenSolve-Hack</strong>
+</p>
 
 ## Overview
 
