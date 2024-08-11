@@ -1,4 +1,4 @@
-Here's a comprehensive `README.md` for your script:
+
 
 ---
 
@@ -90,5 +90,3 @@ Contributions to this project are welcome. If you find any bugs or have suggesti
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-This `README.md` provides a detailed overview of the script, including instructions on how to run it, what it does, and what to expect in terms of output. Adjust any paths or filenames as necessary to fit your specific setup.

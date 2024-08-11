@@ -1,8 +1,6 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-from shapely.geometry import Polygon, MultiPolygon
-from shapely.ops import unary_union
+import os
 
 # Parameters
 white_threshold = 240  # Adjust the threshold as needed
@@ -95,13 +93,17 @@ def concatenate_masks(mask1, mask2):
     return combined
 
 def save_image(image, filename):
-    """Save the image to the specified file."""
-    cv2.imwrite(filename, image)
-    print(f"Image saved as {filename}")
+    """Save the image to the specified file in the output folder."""
+    output_folder = 'output'
+    os.makedirs(output_folder, exist_ok=True)
+    full_path = os.path.join(output_folder, filename)
+    cv2.imwrite(full_path, image)
+    print(f"Image saved as {full_path}")
 
 def main(image_path):
     # Step 1: Load the image
     image = load_image(image_path)
+    print("Print any key to interrupt")
     
     # Convert the image from BGR to RGB (since OpenCV loads in BGR format)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -126,16 +128,19 @@ def main(image_path):
     # Step 6: Concatenate the masks side by side
     combined_image = concatenate_masks(mask1, mask2)
     
-    # Step 7: Save the combined image
-    save_image(combined_image, 'combined_masks.png')
+    # Extract the base name of the image file without extension
+    base_name = os.path.splitext(os.path.basename(image_path))[0]
     
-    # (Optional) Display the combined image
-    plt.imshow(combined_image, cmap='gray')
-    plt.title('Combined Masks')
-    plt.axis('off')
-    plt.show()
+    # Create a filename for the output
+    output_filename = f"mask_{base_name}.png"
+    cv2.imshow('Combined Masks', combined_image)
+    cv2.waitKey(0)  # Wait until a key is pressed
+    cv2.destroyAllWindows()
+    
+    # Save the combined image
+    save_image(combined_image, output_filename)
 
 if __name__ == "__main__":
     # Example usage
-    image_path = 'occlusion2_rec.png'  # Use the uploaded image path
+    image_path = './problems/occlusion2_rec.png'  # Use the uploaded image path
     main(image_path)

@@ -96,14 +96,3 @@ Feel free to submit issues or pull requests. Contributions are welcome!
 This project is open-source and available under the MIT License.
 
 ---
-
-## requirements.txt
-
-```
-numpy==1.24.3
-Pillow==9.4.0
-opencv-python==4.7.0.72
-matplotlib==3.7.2
-```
-
----

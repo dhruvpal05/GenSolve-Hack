@@ -1,6 +1,3 @@
-Here's a comprehensive `README.md` file for your script:
-
----
 
 # Occlusion Detection and Completion Script
 
@@ -76,5 +73,3 @@ The following images will be generated and saved:
 This script is provided as-is and is free to use and modify under the MIT License.
 
 ---
-
-Feel free to adjust the content based on your specific needs or preferences.
