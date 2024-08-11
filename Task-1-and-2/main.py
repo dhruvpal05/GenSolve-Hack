@@ -208,13 +208,23 @@ def plot_shapes(original_image, processed_image, shapes, output_dir="output", ou
     plt.close()
 
 
-def is_reflectionally_symmetric(points):
+def is_reflectionally_symmetric(points, shape_type):
     """Check if the points of a shape are reflectionally symmetric."""
-    # Convert points to a numpy array
     points = np.array(points)
 
-    # Check horizontal and vertical symmetry lines
-    # For simplicity, this example assumes that the points are ordered
+    if shape_type == 'circle':
+        return True  # Circles are always reflectionally symmetric around their center
+
+    if shape_type == 'ellipse':
+        # Ellipses are reflectionally symmetric around both major and minor axes
+        center, axes, angle = points[0], points[1], points[2]  # Assumes format [center, axes, angle]
+        major_axis = axes[0]
+        minor_axis = axes[1]
+
+        if np.allclose(np.mean(points, axis=0), center, atol=1e-2):
+            return True
+
+    # For polygons and other shapes, use the existing reflectional symmetry check
     centroid = np.mean(points, axis=0)
     for angle in [0, np.pi / 2]:
         rot_matrix = np.array([[np.cos(angle), -np.sin(angle)],
@@ -224,11 +234,24 @@ def is_reflectionally_symmetric(points):
             return True
     return False
 
-def is_rotationally_symmetric(points):
+def is_rotationally_symmetric(points, shape_type):
     """Check if the points of a shape are rotationally symmetric."""
     points = np.array(points)
-    n = len(points)
 
+    if shape_type == 'circle':
+        return True  # Circles are always rotationally symmetric around their center
+
+    if shape_type == 'ellipse':
+        center, axes, angle = points[0], points[1], points[2]  # Assumes format [center, axes, angle]
+        num_rotations = 360  # Number of rotations to test
+        for i in range(num_rotations):
+            rotated_points = np.roll(points, i, axis=0)
+            if np.all(np.isclose(rotated_points, points, atol=1e-2)):
+                return True
+        return False
+
+    # For polygons and other shapes, use the existing rotational symmetry check
+    n = len(points)
     if n < 3:
         return False
 
@@ -245,29 +268,37 @@ def detect_symmetry(shapes):
     for shape_type, shape_list in shapes.items():
         for shape in shape_list:
             if shape_type == 'lines':
-                # Lines don't typically have symmetry in the same way as shapes.
                 continue
 
-            if shape_type in ['circles', 'ellipses']:
-                # Skip these shapes for symmetry detection as they are not usually handled this way.
-                continue
-
-            # Assuming shape is a list of points in the format [[x, y], [x, y], ...]
-            try:
-                points = np.array([pt[0] for pt in shape])
-            except (TypeError, IndexError) as e:
-                print(f"Error processing shape: {e}")
-                continue
-
-            has_reflectional_symmetry = is_reflectionally_symmetric(points)
-            has_rotational_symmetry = is_rotationally_symmetric(points)
-
-            if has_reflectional_symmetry:
+            if shape_type == 'circles':
+                # Circles are inherently symmetric
                 symmetric_shapes['reflectional'].append(shape)
-                print(f"{shape_type.capitalize()} shape with points {points} has reflectional symmetry.")
-            if has_rotational_symmetry:
                 symmetric_shapes['rotational'].append(shape)
-                print(f"{shape_type.capitalize()} shape with points {points} has rotational symmetry.")
+                print(f"Circle at center {shape[0]} with radius {shape[1]} has symmetry.")
+
+            elif shape_type == 'ellipses':
+                # Ellipses are inherently symmetric around their major and minor axes
+                symmetric_shapes['reflectional'].append(shape)
+                symmetric_shapes['rotational'].append(shape)
+                print(f"Ellipse with center {shape[0]}, axes {shape[1]}, and angle {shape[2]} has symmetry.")
+
+            else:
+                # Handle other shapes (polygons)
+                try:
+                    points = np.array([pt[0] for pt in shape])
+                except (TypeError, IndexError) as e:
+                    print(f"Error processing shape: {e}")
+                    continue
+
+                has_reflectional_symmetry = is_reflectionally_symmetric(points, shape_type)
+                has_rotational_symmetry = is_rotationally_symmetric(points, shape_type)
+
+                if has_reflectional_symmetry:
+                    symmetric_shapes['reflectional'].append(shape)
+                    print(f"{shape_type.capitalize()} shape with points {points} has reflectional symmetry.")
+                if has_rotational_symmetry:
+                    symmetric_shapes['rotational'].append(shape)
+                    print(f"{shape_type.capitalize()} shape with points {points} has rotational symmetry.")
 
     if not symmetric_shapes['reflectional'] and not symmetric_shapes['rotational']:
         print("No shapes with symmetry detected.")
@@ -328,7 +359,7 @@ def overlay_detected_shapes(original_image, original_paths, shapes, symmetric_sh
 
 def main():
     csv_path = "./problems/isolated.csv"  # Change this path as needed
-    shapes_to_detect = ['rectangles', 'circles', 'stars']  # Add the shapes you want to detect
+    shapes_to_detect = ['rectangles', 'circles', 'stars']  #Only Add the shapes you want to detect
     # 'lines', 'rectangles', 'rounded_rectangles', 'circles', 'ellipses', 'polygons', 'stars'
 
     # Get the base name of the CSV file and create a unique output filename

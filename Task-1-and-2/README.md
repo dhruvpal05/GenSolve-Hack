@@ -1,8 +1,11 @@
-## README.md
 
 # Shape Detection and Symmetry Analysis
 
 This project involves detecting and analyzing various geometric shapes within 2D images generated from CSV files. The detected shapes are further analyzed for reflectional and rotational symmetry, and the results are visualized in PNG images.
+
+## Important Note
+
+**Please ensure to add and remove shapes from `shapes_to_detect` list in `main.py` before executing the script**
 
 ## Features
 
@@ -18,27 +21,7 @@ This project involves detecting and analyzing various geometric shapes within 2D
 - `README.md`: This documentation file.
 - `/output/`: Directory where the output images will be saved.
 
-## Installation
 
-1. **Clone the repository:**
-
-   ```bash
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
-
-2. **Set up a virtual environment (optional but recommended):**
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-
-3. **Install the required Python packages:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
 
 ## Usage
 
@@ -87,12 +70,5 @@ The project requires Python 3.7+ and the following libraries:
 - `opencv-python`
 - `matplotlib`
 
-## Contributing
-
-Feel free to submit issues or pull requests. Contributions are welcome!
-
-## License
-
-This project is open-source and available under the MIT License.
 
 ---
