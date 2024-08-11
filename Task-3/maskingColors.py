@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 # Parameters
 white_threshold = 240  # Adjust the threshold as needed
@@ -103,7 +104,6 @@ def save_image(image, filename):
 def main(image_path):
     # Step 1: Load the image
     image = load_image(image_path)
-    print("Print any key to interrupt")
     
     # Convert the image from BGR to RGB (since OpenCV loads in BGR format)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -134,15 +134,13 @@ def main(image_path):
     output_filename = f"mask_{base_name}.png"
     save_image(combined_image, output_filename)
     
-    # Create a filename for the output
-    try:
-        cv2.imshow('Combined Masks', combined_image)
-        cv2.waitKey(0)  # Wait until a key is pressed
-        cv2.destroyAllWindows()
-    except:
-        pass
+    # Step 7: Display the result using plt.show
+    plt.imshow(combined_image, cmap='gray')
+    plt.title('Combined Masks')
+    plt.axis('off')
+    plt.show()
 
 if __name__ == "__main__":
     # Example usage
-    image_path = './problems/occlusion2_rec.png'  # Use the uploaded image path
+    image_path = './problems/occlusion1_rec.png'  # Use the uploaded image path
     main(image_path)

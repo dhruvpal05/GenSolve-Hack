@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 def detect_and_complete_occlusion(img_path):
     # Load the image as grayscale
@@ -62,17 +63,16 @@ def detect_and_complete_occlusion(img_path):
     cv2.imwrite(output_path, combined_image)
     print(f"Combined image saved as {output_path}")
 
-    # Display the combined image
-    try:
-        cv2.imshow('Results', combined_image)
-        cv2.waitKey(0)  # Wait for a key press to close the window
-        cv2.destroyAllWindows()
-    except:
-        pass
+    # Display the combined image using Matplotlib
+    plt.figure(figsize=(12, 6))
+    plt.imshow(combined_image, cmap='gray')
+    plt.title('Morphological Operations Results')
+    plt.axis('off')
+    plt.show()
 
     return completed_image
 
 # Example usage:
 if __name__ == "__main__":
-    img_path = './problems/occlusion1_rec.png'
+    img_path = './problems/occlusion2_rec.png'
     detect_and_complete_occlusion(img_path)
