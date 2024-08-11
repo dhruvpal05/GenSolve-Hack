@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 import cv2
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
+import os
 
 def read_csv(csv_path):
     """Read CSV file and organize data into paths."""
@@ -132,7 +133,16 @@ def detect_shapes(image, shapes_to_detect):
 
     return shapes
 
-def plot_shapes(original_image, processed_image, shapes):
+def plot_shapes(original_image, processed_image, shapes, output_dir="output", output_filename=None):
+    # Ensure the output directory exists
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Set the default output filename if not provided
+    if output_filename is None:
+        output_filename = "detected_shapes.png"
+    
+    # Create the plot
     fig, axes = plt.subplots(1, 2, figsize=(16, 8))
 
     # Show the original image
@@ -186,7 +196,16 @@ def plot_shapes(original_image, processed_image, shapes):
             axes[1].plot(star[:, 0, 0], star[:, 0, 1], 'b-', linewidth=2)
             axes[1].plot([star[-1, 0, 0], star[0, 0, 0]], [star[-1, 0, 1], star[0, 0, 1]], 'b-', linewidth=2)
 
+    # Save the image
+    output_path = os.path.join(output_dir, output_filename)
+    plt.savefig(output_path)
+    print(f"Detected shapes saved to {output_path}")
+
+    # Show the image
     plt.show()
+
+    # Close the plot to release memory
+    plt.close()
 
 
 def is_reflectionally_symmetric(points):
@@ -307,19 +326,27 @@ def overlay_detected_shapes(original_image, original_paths, shapes, symmetric_sh
 
     return final_image
 
-# Example usage
-shapes_to_detect = ['circles','rectangles']  # Specify the shapes you want to detect
-csv_image, original_paths = parse_csv_with_read_csv('frag0.csv')
-preprocessed_image = preprocess_image(csv_image)
-shapes = detect_shapes(preprocessed_image, shapes_to_detect)
-symmetric_shapes = detect_symmetry(shapes)
+def main():
+    csv_path = "./problems/isolated.csv"  # Change this path as needed
+    shapes_to_detect = ['rectangles', 'circles', 'stars']  # Add the shapes you want to detect
+    # 'lines', 'rectangles', 'rounded_rectangles', 'circles', 'ellipses', 'polygons', 'stars'
 
-# Overlay the detected shapes and symmetries
-final_image = overlay_detected_shapes(preprocessed_image, original_paths, shapes, symmetric_shapes)
+    # Get the base name of the CSV file and create a unique output filename
+    csv_filename = os.path.basename(csv_path)
+    output_filename = f"detected_shapes_{os.path.splitext(csv_filename)[0]}.png"
 
-# Plot original and detected shapes side by side
-plot_shapes(csv_image, final_image, shapes)
+    # Parse CSV and preprocess image
+    original_image, original_paths = parse_csv_with_read_csv(csv_path)
+    processed_image = preprocess_image(original_image)
 
-# Save the final image with detected shapes and symmetry
-final_image.save("detected_shapes_with_symmetry.png")
-final_image.show()
+    # Detect shapes
+    shapes = detect_shapes(processed_image, shapes_to_detect)
+
+    # Detect symmetry
+    symmetric_shapes = detect_symmetry(shapes)
+
+    # Plot shapes with detected symmetry
+    plot_shapes(original_image, processed_image, shapes, output_filename=output_filename)
+
+if __name__ == "__main__":
+    main()
