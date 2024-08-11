@@ -63,9 +63,12 @@ def detect_and_complete_occlusion(img_path):
     print(f"Combined image saved as {output_path}")
 
     # Display the combined image
-    cv2.imshow('Results', combined_image)
-    cv2.waitKey(0)  # Wait for a key press to close the window
-    cv2.destroyAllWindows()
+    try:
+        cv2.imshow('Results', combined_image)
+        cv2.waitKey(0)  # Wait for a key press to close the window
+        cv2.destroyAllWindows()
+    except:
+        pass
 
     return completed_image
 

@@ -130,15 +130,17 @@ def main(image_path):
     
     # Extract the base name of the image file without extension
     base_name = os.path.splitext(os.path.basename(image_path))[0]
+
+    output_filename = f"mask_{base_name}.png"
+    save_image(combined_image, output_filename)
     
     # Create a filename for the output
-    output_filename = f"mask_{base_name}.png"
-    cv2.imshow('Combined Masks', combined_image)
-    cv2.waitKey(0)  # Wait until a key is pressed
-    cv2.destroyAllWindows()
-    
-    # Save the combined image
-    save_image(combined_image, output_filename)
+    try:
+        cv2.imshow('Combined Masks', combined_image)
+        cv2.waitKey(0)  # Wait until a key is pressed
+        cv2.destroyAllWindows()
+    except:
+        pass
 
 if __name__ == "__main__":
     # Example usage
