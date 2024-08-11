@@ -1,7 +1,6 @@
 <p align="center">
-  <strong><span style="font-size: 30px;">GenSolve-Hack</span></strong>
+  <strong><h1 style="font-size: 60px;" align="center">GenSolve-Hack</h1></strong>
 </p>
-
 
 ## Problem Statement 
 
@@ -12,10 +11,11 @@ plex shapes. This project will also cover symmetry and curve completion techniqu
 ## Solution Summary 
 
 ### Task-1-and-2
+#### <a href="https://github.com/dhruvpal05/GenSolve-Hack/blob/main/Task-1-and-2/README.md">Go to Detailed Docs</a>
 The script takes CSV data representing paths and converts them into an image with geometric shapes drawn. It then preprocesses the image to enhance shape detection using edge detection and contour finding. Various shapes, including lines, rectangles, circles, ellipses, and polygons, are detected and analyzed for symmetry properties (both reflectional and rotational). The detected shapes and their symmetries are highlighted and overlaid on the original image, providing a visual representation of the shapes and their symmetrical characteristics. This output is saved as an image file for review and further analysis.
 
 ### Task-3
-
+#### <a href="https://github.com/dhruvpal05/GenSolve-Hack/blob/main/Task-3/README.md">Go to Detailed Docs</a>
 #### Color Segmentation and Mask Completion
 
 This script extracts unique non-white colors from an image, segments the image based on these colors, and refines the masks using morphological operations. It then combines the processed masks into a single image and saves it.
