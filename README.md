@@ -45,3 +45,9 @@ This script processes a grayscale image to create a binary mask, applies morphol
    ```bash
    pip install -r requirements.txt
    ```
+
+4. **Go to the respective Task's detailed docs to continue**
+
+   <a font-size="10px" href="https://github.com/dhruvpal05/GenSolve-Hack/blob/main/Task-1-and-2/README.md">Detailed Docs for Task 1 & 2</a>
+
+   <a href="https://github.com/dhruvpal05/GenSolve-Hack/blob/main/Task-3/README.md">Detailed Docs for Task 3</a>
