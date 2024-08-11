@@ -308,8 +308,8 @@ def overlay_detected_shapes(original_image, original_paths, shapes, symmetric_sh
     return final_image
 
 # Example usage
-shapes_to_detect = ['circles','stars','rectangles']  # Specify the shapes you want to detect
-csv_image, original_paths = parse_csv_with_read_csv('isolated.csv')
+shapes_to_detect = ['circles','rectangles']  # Specify the shapes you want to detect
+csv_image, original_paths = parse_csv_with_read_csv('frag0.csv')
 preprocessed_image = preprocess_image(csv_image)
 shapes = detect_shapes(preprocessed_image, shapes_to_detect)
 symmetric_shapes = detect_symmetry(shapes)
